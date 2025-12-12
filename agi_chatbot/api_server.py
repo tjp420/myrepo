@@ -2011,7 +2011,7 @@ def get_probe_battery_lazy():
 try:
     # Prefer new modular implementations (after refactor)
     from .performance_monitor import PerformanceMonitor, monitor_performance, get_performance_stats  # new module
-    from .cache_manager import EnhancedCache  # new module
+    from .cache_manager import EnhancedCache, cache_response as cache_response_decorator  # new module
     from .parallel_processor import ParallelProcessor  # new module
     from .async_api_client import OptimizedDatabaseQuery  # may live in async_api_client after refactor
     # CDNManager still kept in core.performance_optimizations as fallback if not moved

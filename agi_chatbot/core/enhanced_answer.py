@@ -67,6 +67,11 @@ try:
 except ImportError as e:
     _FRAMEWORK_AVAILABLE = False
     logger.warning(f"Enhanced AGI framework not available: {e}")
+    # Provide a safe fallback so tests and callers can monkeypatch or call this
+    # even when the real framework isn't present.
+    def get_enhanced_framework():
+        """Fallback stub for framework retrieval when framework is unavailable."""
+        return None
 
 # Import capability disclosure system for deterministic responses
 try:
