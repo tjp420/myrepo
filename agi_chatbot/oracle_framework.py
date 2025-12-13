@@ -1,19 +1,25 @@
-"""Dev stubs for the oracle framework types referenced in api_server."""
+"""Dev stubs for the oracle framework types referenced in `api_server`.
 
-from typing import Any
+This module provides lightweight, import-safe stubs used during
+development and testing to satisfy type and runtime imports from the
+application. Implementations here are intentionally minimal and should
+be replaced by the production oracle implementation in real deployments.
+"""
+
+from typing import Any, Dict, List
 
 
 class Oracle:
     def __init__(self) -> None:
         self.sources: List[Dict[str, Any]] = []
 
-    def ask(self, *a, **k) -> Any:
+    def ask(self, *args, **kwargs) -> Any:
         return None
 
     def add_source(self, src: Dict[str, Any]) -> None:
         self.sources.append(src)
 
-    def query(self, query_text: str, *a, **k) -> Any:
+    def query(self, query_text: str, *args, **kwargs) -> Any:
         return None
 
     def get_summary(self) -> Dict[str, Any]:
@@ -33,14 +39,19 @@ class Question:
         self.text = text
 
 
-__all__ = ["Oracle", "SourceType", "Question"]
-"""Stub for agi_chatbot.oracle_framework referenced by api_server."""
-
-
 class OracleFramework:
-    def query(self, q):
+    def query(self, q: str) -> Any:
         return None
 
 
-def get_oracle_framework():
+def get_oracle_framework() -> OracleFramework:
     return OracleFramework()
+
+
+__all__ = [
+    "Oracle",
+    "SourceType",
+    "Question",
+    "OracleFramework",
+    "get_oracle_framework",
+]

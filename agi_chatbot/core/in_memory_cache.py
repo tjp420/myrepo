@@ -1,38 +1,12 @@
-"""Simple in-memory cache shim for dev/test.
+"""In-memory response cache utilities.
 
-Exports `get_response_cache` to satisfy imports in api_server.
+Provides a multi-level cache implementation used by the application. The
+module exposes `get_response_cache()` which returns the global cache
+instance. This file intentionally implements a feature-rich cache while
+remaining safe to import in dev/test environments.
 """
 
 from typing import Any, Dict, Optional
-
-
-class SimpleCache:
-    def __init__(self) -> None:
-        self._store: Dict[str, Any] = {}
-
-    def get(self, key: str, default: Optional[Any] = None) -> Any:
-        return self._store.get(key, default)
-
-    def set(self, key: str, value: Any) -> None:
-        self._store[key] = value
-
-    def stats(self) -> Dict[str, int]:
-        return {"size": len(self._store)}
-
-
-_GLOBAL_CACHE = SimpleCache()
-
-
-def get_response_cache() -> SimpleCache:
-    return _GLOBAL_CACHE
-
-
-__all__ = ["SimpleCache", "get_response_cache"]
-"""
-In-Memory Response Cache for AGI Chatbot
-Provides instant responses for repeated queries with LRU eviction.
-Enhanced with multi-level caching and performance optimizations.
-"""
 
 import asyncio
 import hashlib
@@ -41,7 +15,6 @@ import logging
 import threading
 import time
 from collections import OrderedDict
-from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -58,9 +31,7 @@ class MultiLevelCache:
         self.l1_ttl = 300  # 5 minutes
 
         # L2 Cache: Semantic cache (medium, intelligent)
-        self.l2_cache = InMemoryResponseCache(
-            maxsize=5000, default_ttl=1800
-        )  # 30 minutes
+        self.l2_cache = InMemoryResponseCache(maxsize=5000, default_ttl=1800)  # 30 minutes
 
         # L3 Cache: Persistent cache (large, durable)
         self.l3_cache = InMemoryResponseCache(maxsize=50000, default_ttl=3600)  # 1 hour
@@ -95,14 +66,10 @@ class MultiLevelCache:
         """Generate semantic key for L2 cache based on query intent."""
         # Simple semantic hashing - can be enhanced with NLP
         words = query.lower().split()
-        key_words = [w for w in words if len(w) > 3][
-            :5
-        ]  # Take first 5 significant words
+        key_words = [w for w in words if len(w) > 3][:5]
         return "_".join(sorted(key_words)) if key_words else query[:50]
 
-    async def get(
-        self, query: str, context: Optional[Dict] = None
-    ) -> Optional[Dict[str, Any]]:
+    async def get(self, query: str, context: Optional[Dict] = None) -> Optional[Dict[str, Any]]:
         """Get from multi-level cache with fallback strategy."""
         self.performance_stats["total_requests"] += 1
         cache_key = self._generate_cache_key(query, context)
@@ -114,7 +81,7 @@ class MultiLevelCache:
                 if time.time() - entry["timestamp"] < self.l1_ttl:
                     self.performance_stats["l1_hits"] += 1
                     entry["hits"] = entry.get("hits", 0) + 1
-                    logger.debug(f"🚀 L1 CACHE HIT! ({entry['hits']} hits)")
+                    logger.debug(f"L1 CACHE HIT ({entry['hits']} hits)")
                     return entry["data"]
 
         # L2 Cache Check (semantic)
@@ -126,18 +93,11 @@ class MultiLevelCache:
             with self._lock:
                 if len(self.l1_cache) >= self.l1_max_size:
                     # Remove oldest entry
-                    oldest_key = min(
-                        self.l1_cache.keys(),
-                        key=lambda k: self.l1_cache[k]["timestamp"],
-                    )
+                    oldest_key = min(self.l1_cache.keys(), key=lambda k: self.l1_cache[k]["timestamp"])
                     del self.l1_cache[oldest_key]
 
-                self.l1_cache[cache_key] = {
-                    "data": l2_result,
-                    "timestamp": time.time(),
-                    "hits": 1,
-                }
-            logger.debug("🔄 L2 CACHE HIT - Promoted to L1")
+                self.l1_cache[cache_key] = {"data": l2_result, "timestamp": time.time(), "hits": 1}
+            logger.debug("L2 CACHE HIT - Promoted to L1")
             return l2_result
 
         # L3 Cache Check (persistent)
@@ -146,7 +106,7 @@ class MultiLevelCache:
             self.performance_stats["l3_hits"] += 1
             # Promote to L2 cache
             await self.l2_cache.set(semantic_key, l3_result, ttl_seconds=1800)
-            logger.debug("💾 L3 CACHE HIT - Promoted to L2")
+            logger.debug("L3 CACHE HIT - Promoted to L2")
             return l3_result
 
         # Cache miss
@@ -155,13 +115,7 @@ class MultiLevelCache:
         self.performance_stats["l3_misses"] += 1
         return None
 
-    async def set(
-        self,
-        query: str,
-        response: Dict[str, Any],
-        context: Optional[Dict] = None,
-        priority: str = "normal",
-    ) -> None:
+    async def set(self, query: str, response: Dict[str, Any], context: Optional[Dict] = None, priority: str = "normal") -> None:
         """Set in multi-level cache with intelligent distribution."""
         cache_key = self._generate_cache_key(query, context)
         semantic_key = self._generate_semantic_key(query)
@@ -176,18 +130,10 @@ class MultiLevelCache:
         if priority == "high" or len(str(response)) < 1000:
             with self._lock:
                 if len(self.l1_cache) >= self.l1_max_size:
-                    # Remove oldest entry
-                    oldest_key = min(
-                        self.l1_cache.keys(),
-                        key=lambda k: self.l1_cache[k]["timestamp"],
-                    )
+                    oldest_key = min(self.l1_cache.keys(), key=lambda k: self.l1_cache[k]["timestamp"])
                     del self.l1_cache[oldest_key]
 
-                self.l1_cache[cache_key] = {
-                    "data": response,
-                    "timestamp": time.time(),
-                    "hits": 0,
-                }
+                self.l1_cache[cache_key] = {"data": response, "timestamp": time.time(), "hits": 0}
 
     def get_performance_stats(self) -> Dict[str, Any]:
         """Get comprehensive performance statistics."""
@@ -199,9 +145,7 @@ class MultiLevelCache:
         l2_hit_rate = self.performance_stats["l2_hits"] / total_requests
         l3_hit_rate = self.performance_stats["l3_hits"] / total_requests
         overall_hit_rate = (
-            self.performance_stats["l1_hits"]
-            + self.performance_stats["l2_hits"]
-            + self.performance_stats["l3_hits"]
+            self.performance_stats["l1_hits"] + self.performance_stats["l2_hits"] + self.performance_stats["l3_hits"]
         ) / total_requests
 
         return {
@@ -220,11 +164,7 @@ class MultiLevelCache:
         # L1 cleanup (manual since it's a dict)
         current_time = time.time()
         with self._lock:
-            expired_keys = [
-                key
-                for key, entry in self.l1_cache.items()
-                if current_time - entry["timestamp"] > self.l1_ttl
-            ]
+            expired_keys = [key for key, entry in self.l1_cache.items() if current_time - entry["timestamp"] > self.l1_ttl]
             for key in expired_keys:
                 del self.l1_cache[key]
 
@@ -250,9 +190,7 @@ class InMemoryResponseCache:
 
     def _generate_cache_key(self, query: str, context: Optional[Dict] = None) -> str:
         """Generate a unique cache key from query and context."""
-        content = (
-            f"{query.lower().strip()}_{str(sorted(context.items()) if context else '')}"
-        )
+        content = (f"{query.lower().strip()}_{str(sorted(context.items()) if context else '')}")
         return hashlib.md5(content.encode()).hexdigest()
 
     async def get(
@@ -359,10 +297,13 @@ class InMemoryResponseCache:
         return removed_count
 
 
-# Global cache instance - now using multi-level caching
+# Global cache instance - single canonical instance for the app
 _response_cache = MultiLevelCache()
 
 
 def get_response_cache() -> MultiLevelCache:
-    """Get the global multi-level cache instance."""
+    """Return the global multi-level cache instance used by the app."""
     return _response_cache
+
+
+__all__ = ["MultiLevelCache", "InMemoryResponseCache", "get_response_cache"]
