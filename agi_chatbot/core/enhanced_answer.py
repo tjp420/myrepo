@@ -22,13 +22,15 @@ from functools import lru_cache
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
-# Performance optimization imports
-try:
-    from agi_chatbot_performance_patch import enhanced_answer_optimizer
-    PERFORMANCE_PATCH_AVAILABLE = True
-except ImportError:
-    PERFORMANCE_PATCH_AVAILABLE = False
-    print("Performance patch not found - copy agi_chatbot_performance_patch.py to this directory")
+# Performance optimization imports (optional)
+from ..optional_imports import optional_import
+enhanced_answer_optimizer = optional_import(
+    'agi_chatbot_performance_patch',
+    attr='enhanced_answer_optimizer',
+    fallback=None,
+    warn_msg='Performance patch not found'
+)
+PERFORMANCE_PATCH_AVAILABLE = enhanced_answer_optimizer is not None
 
 
 logger = logging.getLogger(__name__)
