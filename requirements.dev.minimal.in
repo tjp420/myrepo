@@ -1,0 +1,11 @@
+-e .
+fastapi
+uvicorn
+black
+pytest
+pytest-asyncio
+pylint
+pre-commit
+python-multipart
+PyJWT
+requests-cache

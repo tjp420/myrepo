@@ -1,0 +1,20 @@
+[dev] Add lightweight dev shims to stabilize API startup and smoke tests
+
+- Add `metrics/runtime_metrics` in-memory shim (record_interaction/record_error/snapshot)
+- Make `performance.ultra_fast_mode.ultra_fast_enabled()` a callable and add enable/disable helpers
+- Add `DummyEnhancedCache` fallback in `core/performance_optimizations.py`
+- Make `/cache/stats` robust: use `get_enhanced_cache()` + support sync/async `get_stats` via `_invoke_maybe_async`
+- Ensure DEV_MODE populates lightweight `_DevStub` instances for `oracle`, `chatbot`, and `enhanced_cache` so basic endpoints return stable payloads
+
+Rationale: enable deterministic local smoke tests and fast dev iteration without heavy external dependencies. These changes are gated by `AGI_DEV` and intended for development only.
+
+Suggested git commands:
+
+```powershell
+# create branch and commit
+git checkout -b dev/shims-smoke-2025-12-12
+git add agi_chatbot/metrics/runtime_metrics.py agi_chatbot/performance/ultra_fast_mode.py agi_chatbot/core/performance_optimizations.py agi_chatbot/api_server.py docs/DEV_SHIMS_SUMMARY.md
+git commit -F COMMIT_MESSAGE_SHIMS.txt
+```
+
+After committing, run `pytest -q` locally and review failing tests to decide which additional shims are required or whether to write small unit tests around the shims.

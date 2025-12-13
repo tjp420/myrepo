@@ -1,0 +1,10 @@
+-e .
+accelerate
+torch
+torch-geometric
+librosa
+shap
+safetensors
+huggingface-hub
+transformers
+hf-xet

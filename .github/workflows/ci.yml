@@ -1,0 +1,42 @@
+# CI using `requirements.dev.minimal.txt` (applied and committed on feature branch)
+name: CI
+
+on:
+  push:
+    branches: [ main, dev/** ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test (minimal dev)
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11, 3.12]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.dev.minimal.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install minimal dev requirements
+        run: |
+          python -m pip install -U pip setuptools wheel
+          python -m pip install -r requirements.dev.minimal.txt
+
+      - name: Run tests
+        run: |
+          python -m pytest -q
