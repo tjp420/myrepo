@@ -5,6 +5,7 @@ helpers used during development and unit-test collection so the full
 heavyweight dependencies are not required.
 """
 
+import time
 from typing import Any, Dict, List, Optional
 
 
@@ -38,92 +39,9 @@ class PermissiveShim:
         return _done().__await__()
 
 
-# Lightweight dev implementations of commonly-used classes
-class AdvancedResponseOptimizer(PermissiveShim):
-    pass
-
-
-class EnhancedContextMemoryManager(PermissiveShim):
-    pass
-
-
-class DummyProfiler(PermissiveShim):
-    def get_summary(self, *a, **k):
-        return {}
-
-
-class CorePerformanceMonitor(PermissiveShim):
-    pass
-
-
-class UnbreakableOracle(PermissiveShim):
-    pass
-
-
-class EnhancedCache:
-    def __init__(self) -> None:
-        self._store: Dict[str, Any] = {}
-
-    def get(self, key: str, default: Any = None) -> Any:
-        return self._store.get(key, default)
-
-    def set(self, key: str, value: Any) -> None:
-        self._store[key] = value
-
-    def clear(self) -> None:
-        self._store.clear()
-
-    def get_stats(self) -> Dict[str, Any]:
-        return {"size": len(self._store)}
-
-
-# Singleton accessor
-_enhanced_cache_singleton: Optional[EnhancedCache] = None
-
-
-def get_enhanced_cache() -> EnhancedCache:
-    global _enhanced_cache_singleton
-    if _enhanced_cache_singleton is None:
-        _enhanced_cache_singleton = EnhancedCache()
-    return _enhanced_cache_singleton
-
-
-# Minimal factory / integration helpers
-def get_enhanced_framework(*a, **k):
-    return PermissiveShim()
-
-
-def get_oracle_integration(*a, **k):
-    return PermissiveShim()
-
-
-def get_adaptive_optimizer(*a, **k):
-    return PermissiveShim()
-
-
-def get_semantic_engine(*a, **k):
-    return PermissiveShim()
-
-
-def get_knowledge_graph(*a, **k):
-    return PermissiveShim()
-
-
-# Runtime metrics (no-op)
-def record_interaction(*a, **k):
-    return None
-
-
-def record_error(*a, **k):
-    return None
-
-
-def snapshot(*a, **k):
-    return {}
-
-
-def get_stats(*a, **k):
-    return {}
+# The fuller, canonical shim implementations live further down in this
+# file. Earlier lightweight placeholders were removed to avoid duplicate
+# definitions (F811). See later sections for the definitive shims.
 
 
 # Small typed return helpers used by hydrators and stub mappings.
@@ -154,52 +72,11 @@ def _ret_bool(*a, **k):
 
 
 # Ultra-fast / logging helpers
-_ULTRA_FAST_FLAG = False
-
-
-def log_hint_prefix() -> str:
-    return "[ULTRA]"
-
-
-def ultra_fast_enabled() -> bool:
-    return bool(_ULTRA_FAST_FLAG)
-
-
-def enable_ultra_fast() -> None:
-    global _ULTRA_FAST_FLAG
-    _ULTRA_FAST_FLAG = True
-
-
-def disable_ultra_fast() -> None:
-    global _ULTRA_FAST_FLAG
-    _ULTRA_FAST_FLAG = False
-
-
-# Exports
-__all__ = [
-    "PermissiveShim",
-    "_NoopAttr",
-    "AdvancedResponseOptimizer",
-    "EnhancedContextMemoryManager",
-    "DummyProfiler",
-    "CorePerformanceMonitor",
-    "UnbreakableOracle",
-    "EnhancedCache",
-    "get_enhanced_cache",
-    "get_enhanced_framework",
-    "get_oracle_integration",
-    "get_adaptive_optimizer",
-    "get_semantic_engine",
-    "get_knowledge_graph",
-    "record_interaction",
-    "record_error",
-    "snapshot",
-    "get_stats",
-    "log_hint_prefix",
-    "ultra_fast_enabled",
-    "enable_ultra_fast",
-    "disable_ultra_fast",
-]
+# Canonical ultra-fast helpers live later; early lightweight variants
+# removed to avoid duplicate definitions during consolidation.
+# Canonical exports are defined later in the file; keep __all__ minimal
+# here to avoid spurious F822 lint failures during staged refactors.
+__all__ = []
 
 
 class CorePerformanceMonitor(PermissiveShim):
@@ -248,28 +125,9 @@ class _Transforms(PermissiveShim):
 
 transforms = _Transforms()
 
-
-# Ultra-fast mode helpers (kept small for dev shims)
-_ULTRA_FAST_ENABLED = False
-
-
-def log_hint_prefix() -> str:
-    return "[ULTRA_FAST_SHIM]"
-
-
-def ultra_fast_enabled() -> bool:
-    return bool(_ULTRA_FAST_ENABLED)
-
-
-def enable_ultra_fast() -> None:
-    global _ULTRA_FAST_ENABLED
-    _ULTRA_FAST_ENABLED = True
-
-
-def disable_ultra_fast() -> None:
-    global _ULTRA_FAST_ENABLED
-    _ULTRA_FAST_ENABLED = False
-
+# Note: canonical ultra-fast helpers and telemetry shims are defined later
+# in the file. Duplicate lightweight variants were removed to reduce
+# redefinition noise (F811) during consolidation.
 
 class EnhancedCache:
     def __init__(self) -> None:
@@ -520,22 +378,10 @@ class SecureHttpClient:
         return None
 
 
-class AutoTokenizer:
-    @staticmethod
-    def from_pretrained(name: str):
-        return None
-
-
-class AutoModel:
-    @staticmethod
-    def from_pretrained(name: str):
-        return None
-
-
-class transforms:  # type: ignore
-    @staticmethod
-    def Compose(x):
-        return x
+# Duplicate lightweight AutoTokenizer/AutoModel/transforms classes removed
+# (canonical shims defined earlier as `AutoTokenizerShim`/`AutoModelShim`
+# and `transforms = _Transforms()`). Keeping the richer canonical
+# implementations avoids redefinition warnings.
 
 
 try:
@@ -743,8 +589,6 @@ def get_power_stats(*args, **kwargs) -> Dict[str, Any]:
 
 # Ensure `cfg` is a typed mapping available at module scope for imports that
 # reference configuration during static analysis.
-from typing import Dict
-
 cfg: Dict[str, Any] = globals().get("cfg", {})
 
 
