@@ -8,11 +8,12 @@ If `entities.csv` is not present, the script runs a small built-in example.
 import sys
 from pathlib import Path
 
+
 def main():
     try:
         import pandas as pd
         import spacy
-    except Exception as exc:
+    except Exception:
         print("Missing dependencies. Install with: pip install pandas spacy")
         raise
 
@@ -31,6 +32,7 @@ def main():
         doc = nlp(str(text).lower())
         tokens = [token.lemma_ for token in doc if not token.is_punct and not token.is_space]
         return " ".join(tokens)
+
 
     df["text_norm"] = df["text"].apply(normalize_text)
     print(df["text_norm"])

@@ -7,6 +7,7 @@ This script runs a small random-walk corpus and trains a Word2Vec model over nod
 """
 import random
 
+
 def main():
     try:
         import networkx as nx
@@ -29,6 +30,7 @@ def main():
                 break
             walk.append(random.choice(neighbors))
         return walk
+
 
     walks = []
     for node in G.nodes():

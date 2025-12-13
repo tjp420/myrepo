@@ -8,6 +8,7 @@ If `train.csv` is not present, the script uses a tiny synthetic dataset.
 import sys
 from pathlib import Path
 
+
 def main():
     try:
         import pandas as pd
@@ -42,6 +43,7 @@ def main():
         ("tfidf", TfidfVectorizer(max_features=20000, ngram_range=(1, 2))),
         ("clf", LogisticRegression(max_iter=1000)),
     ])
+
 
     pipeline.fit(X_train, y_train)
     preds = pipeline.predict(X_test)
