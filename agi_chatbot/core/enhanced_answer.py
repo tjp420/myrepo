@@ -68,6 +68,18 @@ except ImportError as e:
     _FRAMEWORK_AVAILABLE = False
     logger.warning(f"Enhanced AGI framework not available: {e}")
 
+# Ensure the symbol exists so tests can monkeypatch it even when the real
+# framework isn't importable in CI. Tests expect `get_enhanced_framework`
+# to be present on the module; provide a simple stub that raises at runtime.
+if not _FRAMEWORK_AVAILABLE:
+    def get_enhanced_framework(*args, **kwargs):
+        """Fallback stub used when the enhanced framework isn't present.
+
+        Tests will usually monkeypatch this symbol; if it's accidentally
+        called in production without being replaced, raise a clear error.
+        """
+        raise RuntimeError("Enhanced AGI framework not available")
+
 # Import capability disclosure system for deterministic responses
 try:
     from .capability_disclosure import (
