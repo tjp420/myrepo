@@ -1,0 +1,6 @@
+
+[flake8]
+# Exclude generated or environment files to focus linting on handwritten code
+exclude = api_server.py, agi_chatbot/api_server.py, .venv, venv, env, outputs, tools/outputs
+max-line-length = 120
+
