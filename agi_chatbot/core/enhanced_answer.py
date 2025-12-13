@@ -795,24 +795,11 @@ def _handle_simple_deterministic_query(user_input: str) -> Optional[str]:
             # Safe evaluation with limited functions
             result = eval(expression, {"__builtins__": {}, "math": math})
             return f"🧮 {expression} = {result}"
-        except:
+        except Exception:
             return None
 
     # Direct math expressions (like "2 + 2") - more specific detection
     # Check for actual mathematical patterns, not just individual characters
-    math_indicators = [
-        "+",
-        "-",
-        "*",
-        "/",
-        "=",
-        "sqrt(",
-        "sin(",
-        "cos(",
-        "tan(",
-        "log(",
-        "ln(",
-    ]
     has_math_operators = any(op in query_lower for op in ["+", "-", "*", "/", "="])
     has_math_functions = any(
         func in query_lower for func in ["sqrt", "sin", "cos", "tan", "log", "ln"]
@@ -836,7 +823,7 @@ def _handle_simple_deterministic_query(user_input: str) -> Optional[str]:
 
             result = eval(expr, {"__builtins__": {}, "math": math})
             return f"🧮 {query_lower} = {result}"
-        except:
+        except Exception:
             pass
 
     # Unit conversions - more specific detection
@@ -946,13 +933,13 @@ def _postprocess_response(text: str) -> str:
     # Collapse excessive newlines
     text = re.sub(r"\n{3,}", "\n\n", text)
     # Deduplicate consecutive identical lines
-    lines = [l.rstrip() for l in text.splitlines()]
+    lines = [line.rstrip() for line in text.splitlines()]
     cleaned = []
     last = None
-    for l in lines:
-        if l != last or l.strip() != "":
-            cleaned.append(l)
-        last = l
+    for line in lines:
+        if line != last or line.strip() != "":
+            cleaned.append(line)
+        last = line
     text = "\n".join(cleaned)
     # Collapse multiple repeated confidence notes to a single instance
     text = re.sub(
@@ -1039,7 +1026,7 @@ try:
     # Check if advanced optimization components are available
     _ADVANCED_OPTIMIZATION_AVAILABLE = True
     logger.info("Advanced optimization system available")
-except:
+except Exception:
     _ADVANCED_OPTIMIZATION_AVAILABLE = False
     logger.debug("Advanced optimization system not available")
 
