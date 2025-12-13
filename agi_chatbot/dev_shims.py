@@ -126,6 +126,33 @@ def get_stats(*a, **k):
     return {}
 
 
+# Small typed return helpers used by hydrators and stub mappings.
+# Placed early so all later dynamic attachments can reference them
+# without causing undefined-name (F821) lint errors.
+def _ret_none(*a, **k):
+    return None
+
+
+def _ret_list(*a, **k):
+    return []
+
+
+def _ret_dict(*a, **k):
+    return {}
+
+
+def _ret_tuple(*a, **k):
+    return tuple()
+
+
+def _ret_str(*a, **k):
+    return ""
+
+
+def _ret_bool(*a, **k):
+    return False
+
+
 # Ultra-fast / logging helpers
 _ULTRA_FAST_FLAG = False
 
