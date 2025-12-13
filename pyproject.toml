@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agi-chatbot"
+version = "0.0.0"
+description = "AGI Chatbot"
+readme = "README.md"
+authors = [ { name = "tjp420" } ]
+requires-python = ">=3.10"
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agi_chatbot*"]
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agi-chatbot"
+version = "0.1.0"
+description = "AGI Chatbot (local project)"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [ { name = "tjp420" } ]
