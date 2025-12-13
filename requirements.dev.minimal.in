@@ -9,3 +9,12 @@ pre-commit
 python-multipart
 PyJWT
 requests-cache
+httpx
+jsonschema
+aiohttp
+cachetools
+numpy
+Pillow
+networkx
+psutil
+scipy
