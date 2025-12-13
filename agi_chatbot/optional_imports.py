@@ -15,9 +15,9 @@ This module avoids noisy repeated prints by remembering which warnings
 have already been emitted for the process lifetime.
 """
 
-from typing import Any, Optional
 import importlib
 import logging
+from typing import Any, Optional
 
 _WARNED = set()
 

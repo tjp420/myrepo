@@ -1,0 +1,11 @@
+# Minimal dependencies for the Unbreakable Oracle RAG prototype
+fastapi>=0.95
+uvicorn[standard]>=0.20
+sentence-transformers>=2.2.2
+numpy>=1.23
+scikit-learn>=1.2
+python-dotenv>=1.0.0
+requests>=2.28
+
+# Optional (platform-specific): faiss for fast vector search. On Windows prefer conda.
+faiss-cpu>=1.7.3; platform_system != "Windows"

@@ -1,5 +1,6 @@
 import numpy as np
 from fastapi.testclient import TestClient
+
 from unbreakable_oracle.api import app, retriever
 
 

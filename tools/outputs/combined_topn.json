@@ -1,0 +1,468 @@
+{
+  "outputs/compare_20250925T195822Z/exact_counts_top5.csv": [
+    {
+      "answer": "absurd_medical",
+      "count": 1
+    },
+    {
+      "answer": "balloon_paradox",
+      "count": 1
+    },
+    {
+      "answer": "lighting_paradox",
+      "count": 1
+    },
+    {
+      "answer": "metaphor_impossibility",
+      "count": 1
+    },
+    {
+      "answer": "unsafe_advice_gas",
+      "count": 1
+    }
+  ],
+  "outputs/compare_20250925T200252Z/exact_counts_top5.csv": [
+    {
+      "answer": "absurd_medical",
+      "count": 1
+    },
+    {
+      "answer": "balloon_paradox",
+      "count": 1
+    },
+    {
+      "answer": "lighting_paradox",
+      "count": 1
+    },
+    {
+      "answer": "metaphor_impossibility",
+      "count": 1
+    },
+    {
+      "answer": "unsafe_advice_gas",
+      "count": 1
+    }
+  ],
+  "outputs/data/exact_counts_top5.csv": [
+    {
+      "answer": "2.0",
+      "count": 1
+    },
+    {
+      "answer": "2.2",
+      "count": 1
+    },
+    {
+      "answer": "2.5",
+      "count": 1
+    },
+    {
+      "answer": "2.7",
+      "count": 1
+    },
+    {
+      "answer": "3.0",
+      "count": 1
+    }
+  ],
+  "outputs/exact_counts_csv/exact_counts_top5.csv": [
+    {
+      "answer": "Jane Austen",
+      "count": 1
+    },
+    {
+      "answer": "Oxygen",
+      "count": 1
+    },
+    {
+      "answer": "Paris",
+      "count": 1
+    }
+  ],
+  "outputs/filtered_rows_Oxygen/exact_counts_top5.csv": [
+    {
+      "answer": "Oxygen",
+      "count": 1
+    }
+  ],
+  "outputs/medical_conditions/exact_counts_top5.csv": [
+    {
+      "answer": "Anxiety Disorder",
+      "count": 1
+    },
+    {
+      "answer": "Back Strain",
+      "count": 1
+    },
+    {
+      "answer": "Common Cold",
+      "count": 1
+    },
+    {
+      "answer": "Diabetes",
+      "count": 1
+    },
+    {
+      "answer": "Gastroenteritis",
+      "count": 1
+    }
+  ],
+  "outputs/processed_sales/exact_counts_top5.csv": [
+    {
+      "answer": "Widget A",
+      "count": 2
+    },
+    {
+      "answer": "Widget B",
+      "count": 1
+    },
+    {
+      "answer": "Widget C",
+      "count": 1
+    }
+  ],
+  "outputs/quarry_data/exact_counts_top5.csv": [
+    {
+      "answer": "0.001281157494689933",
+      "count": 1
+    },
+    {
+      "answer": "0.0027379990573926927",
+      "count": 1
+    },
+    {
+      "answer": "0.003473294944907779",
+      "count": 1
+    },
+    {
+      "answer": "0.004713501423993849",
+      "count": 1
+    },
+    {
+      "answer": "0.005029839074005116",
+      "count": 1
+    }
+  ],
+  "outputs/repro_log/exact_counts_top5.csv": [
+    {
+      "answer": "MainThread",
+      "count": 3
+    }
+  ],
+  "outputs/sample_facts/exact_counts_top5.csv": [
+    {
+      "answer": "Meta-analysis",
+      "count": 1
+    },
+    {
+      "answer": "Opinion piece",
+      "count": 1
+    },
+    {
+      "answer": "Study shows warming",
+      "count": 1
+    }
+  ],
+  "outputs/sample_large_dataset/exact_counts_top10_sample_large_dataset.csv": [
+    {
+      "answer": "-0.00017302373797818926",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002705507395686899",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002718356888822881",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002729011985976668",
+      "count": 1
+    },
+    {
+      "answer": "-0.00047780487129393996",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005258980035062457",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005485623871600608",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005503337624883424",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005528020501098035",
+      "count": 1
+    },
+    {
+      "answer": "-0.0006459770254049921",
+      "count": 1
+    }
+  ],
+  "outputs/sample_large_dataset/exact_counts_top5.csv": [
+    {
+      "answer": "-0.00017302373797818926",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002705507395686899",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002718356888822881",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002729011985976668",
+      "count": 1
+    },
+    {
+      "answer": "-0.00047780487129393996",
+      "count": 1
+    }
+  ],
+  "outputs/sample_large_dataset/exact_counts_top50_sample_large_dataset.csv": [
+    {
+      "answer": "-0.00017302373797818926",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002705507395686899",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002718356888822881",
+      "count": 1
+    },
+    {
+      "answer": "-0.0002729011985976668",
+      "count": 1
+    },
+    {
+      "answer": "-0.00047780487129393996",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005258980035062457",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005485623871600608",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005503337624883424",
+      "count": 1
+    },
+    {
+      "answer": "-0.0005528020501098035",
+      "count": 1
+    },
+    {
+      "answer": "-0.0006459770254049921",
+      "count": 1
+    },
+    {
+      "answer": "-0.0006567988505791056",
+      "count": 1
+    },
+    {
+      "answer": "-0.0006619916328763152",
+      "count": 1
+    },
+    {
+      "answer": "-0.000741643869485144",
+      "count": 1
+    },
+    {
+      "answer": "-0.0008096442566834567",
+      "count": 1
+    },
+    {
+      "answer": "-0.0009193282366822489",
+      "count": 1
+    },
+    {
+      "answer": "-0.0009388450689555979",
+      "count": 1
+    },
+    {
+      "answer": "-0.000939413289142089",
+      "count": 1
+    },
+    {
+      "answer": "-0.0009542943732258718",
+      "count": 1
+    },
+    {
+      "answer": "-0.0009888536611665569",
+      "count": 1
+    },
+    {
+      "answer": "-0.0009947475507251136",
+      "count": 1
+    },
+    {
+      "answer": "-0.0010877194957043858",
+      "count": 1
+    },
+    {
+      "answer": "-0.001144190833829723",
+      "count": 1
+    },
+    {
+      "answer": "-0.0011642281779251555",
+      "count": 1
+    },
+    {
+      "answer": "-0.0013532237907594045",
+      "count": 1
+    },
+    {
+      "answer": "-0.001363165112728963",
+      "count": 1
+    },
+    {
+      "answer": "-0.0013761790890513847",
+      "count": 1
+    },
+    {
+      "answer": "-0.0013888867131615443",
+      "count": 1
+    },
+    {
+      "answer": "-0.0014393388057873312",
+      "count": 1
+    },
+    {
+      "answer": "-0.001460895687208542",
+      "count": 1
+    },
+    {
+      "answer": "-0.0015516419449563596",
+      "count": 1
+    },
+    {
+      "answer": "-0.001558123896822564",
+      "count": 1
+    },
+    {
+      "answer": "-0.001604407164436429",
+      "count": 1
+    },
+    {
+      "answer": "-0.0016366574711360721",
+      "count": 1
+    },
+    {
+      "answer": "-0.0016511290263460452",
+      "count": 1
+    },
+    {
+      "answer": "-0.0016651549027905932",
+      "count": 1
+    },
+    {
+      "answer": "-0.001731419978222139",
+      "count": 1
+    },
+    {
+      "answer": "-0.0017625068493562193",
+      "count": 1
+    },
+    {
+      "answer": "-0.0017845385890492603",
+      "count": 1
+    },
+    {
+      "answer": "-0.0018208066718358139",
+      "count": 1
+    },
+    {
+      "answer": "-0.0019389596198347344",
+      "count": 1
+    },
+    {
+      "answer": "-0.001948268300017004",
+      "count": 1
+    },
+    {
+      "answer": "-0.0020045047879268295",
+      "count": 1
+    },
+    {
+      "answer": "-0.0020863826492082574",
+      "count": 1
+    },
+    {
+      "answer": "-0.002097777718119384",
+      "count": 1
+    },
+    {
+      "answer": "-0.0021157118681273588",
+      "count": 1
+    },
+    {
+      "answer": "-0.002154731989216358",
+      "count": 1
+    },
+    {
+      "answer": "-0.002210149141092027",
+      "count": 1
+    },
+    {
+      "answer": "-0.0022495001714746563",
+      "count": 1
+    },
+    {
+      "answer": "-0.0022551246764725926",
+      "count": 1
+    },
+    {
+      "answer": "-0.0023200680391498715",
+      "count": 1
+    }
+  ],
+  "outputs/sample_qa_data/exact_counts_top5.csv": [
+    {
+      "answer": "Jane Austen",
+      "count": 1
+    },
+    {
+      "answer": "Oxygen",
+      "count": 1
+    },
+    {
+      "answer": "Paris",
+      "count": 1
+    }
+  ],
+  "outputs/symptom_ontology/exact_counts_top5.csv": [
+    {
+      "answer": "abdominal_pain",
+      "count": 1
+    },
+    {
+      "answer": "back_pain",
+      "count": 1
+    },
+    {
+      "answer": "chest_pain",
+      "count": 1
+    },
+    {
+      "answer": "cough",
+      "count": 1
+    },
+    {
+      "answer": "dizziness",
+      "count": 1
+    }
+  ]
+}

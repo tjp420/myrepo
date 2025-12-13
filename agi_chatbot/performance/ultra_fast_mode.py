@@ -10,6 +10,7 @@ _ULTRA_FAST_ENABLED = False
 
 log_hint_prefix = "[ULTRA_FAST_SHIM]"
 
+
 def ultra_fast_enabled() -> bool:
     """Return whether ultra-fast mode is enabled.
 
@@ -18,10 +19,12 @@ def ultra_fast_enabled() -> bool:
     """
     return bool(_ULTRA_FAST_ENABLED)
 
+
 def enable_ultra_fast() -> None:
     """Enable ultra-fast mode for tests or runtime configuration."""
     global _ULTRA_FAST_ENABLED
     _ULTRA_FAST_ENABLED = True
+
 
 def disable_ultra_fast() -> None:
     """Disable ultra-fast mode."""

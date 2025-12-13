@@ -1,0 +1,108 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Download Histogram Thumbnails</title>
+<style>
+    body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        background: #f7f7f7;
+        color: #111;
+        margin: 24px
+    }
+
+    .card {
+        background: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+        max-width: 1100px;
+        margin: 0 auto
+    }
+
+    h1 {
+        margin: 0 0 12px 0;
+        font-size: 18px
+    }
+
+    a.download {
+        display: inline-block;
+        padding: 8px 12px;
+        background: #007acc;
+        color: #fff;
+        border-radius: 6px;
+        text-decoration: none
+    }
+
+    a.download:visited {
+        color: #fff
+    }
+
+    img {
+        display: block;
+        margin-top: 12px;
+        max-width: 100%;
+        border: 1px solid #e6e6e6;
+        border-radius: 4px
+    }
+
+    .notice {
+        color: #666;
+        font-size: 13px
+    }
+</style>
+<div class="card">
+    <h1>Histogram Thumbnails — Download</h1>
+    <p class="notice">This page will read <code>histogram_thumbnails_wrapper.png.b64</code> from the same folder and
+        create a download link and preview. If your browser blocks local file fetches, use the PowerShell or Python
+        restore commands shown below.</p>
+
+    <p>
+        <a id="downloadLink" class="download" href="#">Preparing download…</a>
+        <span id="size" style="margin-left:12px;color:#444"></span>
+    </p>
+
+    <p><small>If the link doesn't work, decode the .b64 file locally (PowerShell / Python instructions are included at
+            the bottom of this page).</small></p>
+
+    <img id="preview" alt="preview" src="" />
+
+    <h3>Local restore commands</h3>
+    <pre style="background:#f4f4f4;padding:10px;border-radius:6px">PowerShell:
+[System.IO.File]::WriteAllBytes('histogram_thumbnails_wrapper_restored.png', [Convert]::FromBase64String((Get-Content 'histogram_thumbnails_wrapper.png.b64' -Raw)))
+
+Python:
+import base64
+open('histogram_thumbnails_wrapper_restored.png','wb').write(base64.b64decode(open('histogram_thumbnails_wrapper.png.b64','rb').read()))
+  </pre>
+
+    <p class="notice">Note: This HTML must sit in the same folder as `histogram_thumbnails_wrapper.png.b64` (it will be
+        created there by this tool).</p>
+</div>
+
+<script>
+    async function init() {
+        try {
+            const resp = await fetch('histogram_thumbnails_wrapper.png.b64');
+            if (!resp.ok) throw new Error('Fetch failed: ' + resp.status);
+            const b64 = (await resp.text()).trim();
+            const href = 'data:image/png;base64,' + b64;
+            const link = document.getElementById('downloadLink');
+            link.href = href;
+            link.download = 'histogram_thumbnails_wrapper.png';
+            link.textContent = 'Download PNG (preview below)';
+            document.getElementById('preview').src = href;
+            const sizeBytes = Math.round(b64.length * 3 / 4);
+            document.getElementById('size').textContent = sizeBytes + ' bytes';
+        } catch (err) {
+            console.error(err);
+            const link = document.getElementById('downloadLink');
+            link.textContent = 'Download (fallback)';
+            link.href = '#';
+            const note = document.createElement('div');
+            note.style.color = '#b33';
+            note.style.marginTop = '8px';
+            note.textContent = 'Unable to load local .b64 file via fetch. Some browsers block local file fetches. Run the provided PowerShell or Python commands to restore the PNG.';
+            document.querySelector('.card').appendChild(note);
+        }
+    }
+    init();
+</script>

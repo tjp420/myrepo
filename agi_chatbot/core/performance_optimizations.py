@@ -2,8 +2,10 @@
 
 Provides `PerformanceMonitor`, `monitor_performance`, and `get_performance_stats`.
 """
-from typing import Dict, Any
+
 from functools import wraps
+from typing import Any, Dict
+
 try:
     from agi_chatbot.cache_manager import EnhancedCache
 except Exception:
@@ -70,7 +72,12 @@ def get_performance_stats() -> Dict[str, Any]:
     return monitor.get_stats()
 
 
-__all__ = ["PerformanceMonitor", "monitor_performance", "get_performance_stats", "EnhancedCache"]
+__all__ = [
+    "PerformanceMonitor",
+    "monitor_performance",
+    "get_performance_stats",
+    "EnhancedCache",
+]
 
 
 class ParallelProcessor:

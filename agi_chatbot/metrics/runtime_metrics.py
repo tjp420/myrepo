@@ -7,16 +7,17 @@ Provides the minimal API surface the application expects:
 
 This avoids pulling in the full metrics stack during development runs.
 """
+
 from __future__ import annotations
 
 import threading
 import time
-from typing import Dict, Any
+from typing import Any, Dict
 
 _lock = threading.Lock()
 _metrics: Dict[str, Any] = {
     "interactions": {},  # name -> {count, total_latency_ms}
-    "errors": {},        # name -> count
+    "errors": {},  # name -> count
     "last_updated": None,
 }
 
@@ -28,7 +29,9 @@ def _now_ts() -> float:
 def record_interaction(name: str, latency_ms: float | None = None) -> None:
     """Record a single interaction metric (non-blocking, thread-safe)."""
     with _lock:
-        entry = _metrics["interactions"].setdefault(name, {"count": 0, "total_latency_ms": 0.0})
+        entry = _metrics["interactions"].setdefault(
+            name, {"count": 0, "total_latency_ms": 0.0}
+        )
         entry["count"] += 1
         if latency_ms is not None:
             try:
@@ -50,7 +53,12 @@ def snapshot() -> Dict[str, Any]:
     with _lock:
         # Build a compact, JSON-serializable snapshot
         interactions = {
-            k: {"count": v["count"], "avg_latency_ms": (v["total_latency_ms"] / v["count"]) if v["count"] > 0 else None}
+            k: {
+                "count": v["count"],
+                "avg_latency_ms": (
+                    (v["total_latency_ms"] / v["count"]) if v["count"] > 0 else None
+                ),
+            }
             for k, v in _metrics["interactions"].items()
         }
         return {
